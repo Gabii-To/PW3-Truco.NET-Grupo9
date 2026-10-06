@@ -1,0 +1,61 @@
+# =========================
+# .NET / C#
+# =========================
+
+# Build
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+
+# Test
+TestResults/
+coverage/
+
+# Logs
+*.log
+
+# ASP.NET Core
+wwwroot/lib/
+
+# User Secrets
+secrets.json
+
+# Environment variables
+.env
+.env.*
+
+# Local databases
+*.db
+*.db-shm
+*.db-wal
+
+# Publish
+publish/
+*.publishsettings
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# OS
+.DS_Store
+Thumbs.db

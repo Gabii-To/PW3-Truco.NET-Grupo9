@@ -1,7 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\Repos Github\\Truco.NET\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B8EE89E1-4467-4BB8-8420-4EABE2E2A468}|Elementos de la soluci\u00F3n{B8EE89E1-4467-4BB8-8420-4EABE2E2A468}|E:\\Repos Github\\Truco.NET\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{B8EE89E1-4467-4BB8-8420-4EABE2E2A468}|Elementos de la soluci\u00F3n{B8EE89E1-4467-4BB8-8420-4EABE2E2A468}|solutionrelative:.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 304,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,6 +43,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": ".gitignore",
+              "DocumentMoniker": "E:\\Repos Github\\Truco.NET\\.gitignore",
+              "RelativeDocumentMoniker": ".gitignore",
+              "ToolTip": "E:\\Repos Github\\Truco.NET\\.gitignore",
+              "RelativeToolTip": ".gitignore",
+              "ViewState": "AgIAABUAAAAAAAAAAAAkwD0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-10-06T00:17:22.875Z",
+              "EditorCaption": ""
             }
           ]
         },
