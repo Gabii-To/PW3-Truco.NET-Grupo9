@@ -46,6 +46,7 @@ namespace Truco.NET.Controllers
 
             if (_homeService.ValidarUsuario(usuario.Nombre, usuario.Password))
             {
+                HttpContext.Session.SetString("UsuarioLogueado", usuario.Nombre);
                 TempData["MensajeSuccess"] = $"¡Bienvenido {usuario.Nombre}!";
                 return RedirectToAction("Index");
             }
@@ -78,9 +79,18 @@ namespace Truco.NET.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult Logout()
+        {
+            // Limpia todas las variables guardadas en la sesión
+            HttpContext.Session.Clear();
+            TempData["MensajeSuccess"] = "Has cerrado sesión correctamente.";
+            return RedirectToAction("Index");
+        }
+
 
         /*
          * cuando se Cree DBcontext se usaran estos login/register, que hacen la query para validar el usuario
+         * ASP.NET Core Identity es el estandar para verificar usuarios y sus roles en .Net
                 [HttpPost]
                 [ValidateAntiForgeryToken]
                 public async Task<IActionResult> Register(string Usuario, string Password)

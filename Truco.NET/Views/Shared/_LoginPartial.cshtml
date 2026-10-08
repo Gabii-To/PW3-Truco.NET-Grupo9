@@ -3,30 +3,30 @@
 @inject UserManager<IdentityUser> UserManager
 
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
-            Hola, @User.Identity?.Name!
-        </a>
-    </li>
-    <li class="nav-item">
-        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button type="submit" class="nav-link btn btn-link text-dark">Cerrar sesión</button>
-        </form>
-    </li>
-}
-else
-{
-    <li class="nav-item">
-        <button type="button" class="btn btn-link nav-link text-dark" data-bs-toggle="modal" data-bs-target="#registerModal">
-            Register
-        </button>
-    </li>
-    <li class="nav-item">
-        <button type="button" class="btn btn-link nav-link text-dark" data-bs-toggle="modal" data-bs-target="#loginModal">
-            Login
-        </button>
-    </li>
-}
+    @if (!string.IsNullOrEmpty(Context.Session.GetString("UsuarioLogueado")))
+    {
+        <li class="nav-item">
+            <span class="nav-link text-dark fw-bold">
+                ¡Hola, @Context.Session.GetString("UsuarioLogueado")!
+            </span>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link btn btn-link text-dark" asp-controller="Home" asp-action="Logout">
+                Cerrar sesión
+            </a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <button type="button" class="btn btn-link nav-link text-dark" data-bs-toggle="modal" data-bs-target="#registerModal">
+                Register
+            </button>
+        </li>
+        <li class="nav-item">
+            <button type="button" class="btn btn-link nav-link text-dark" data-bs-toggle="modal" data-bs-target="#loginModal">
+                Login
+            </button>
+        </li>
+    }
 </ul>

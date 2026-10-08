@@ -18,28 +18,18 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Truco.NET</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black border-bottom border-secondary px-3">
+        <div class="container-fluid">
+            <a class="navbar-logo text-decoration-none" href="#">
+                <span class="titulo-bar fs-4">CANTINA <span class="subtitulo-neon">EL ENVIDO</span></span>
+            </a>
 
-                    <!-- Se integra la vista parcial para alternar entre opciones según si está autenticado o no -->
-                    <partial name="_LoginPartial" />
-                </div>
+            <div class="ms-auto d-flex align-items-center">
+               
+                <partial name="_LoginPartial" />
             </div>
-        </nav>
+        </div>
+    </nav>
     </header>
     <div class="container mt-3">
     <!-- Alerta de éxito general (Login o Registro correcto) -->
@@ -75,11 +65,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - Truco.NET - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -148,5 +134,9 @@
             </div>
         </div>
     </div>
+    <footer class="bg-black text-center py-3 border-top border-secondary text-muted">
+    <small>&copy; 2026 Truco.NET - Cantina El Envido. Todos los derechos reservados.</small>
+    </footer>
 </body>
+
 </html>
