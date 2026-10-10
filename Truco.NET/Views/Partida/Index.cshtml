@@ -1,0 +1,114 @@
+﻿
+@using Truco.Net.Models
+@model IEnumerable<Truco.Net.Models.Partida>
+@{
+    ViewData["Title"] = "Salas Disponibles";
+    string modoActual = ViewBag.ModoFiltro ?? "1v1";
+}
+
+<div class="container my-5">
+    
+    @if (TempData["ErrorCrear"] != null)
+    {
+        <div class="alert alert-danger bg-dark text-danger border-danger mb-4">
+            @TempData["ErrorCrear"]
+        </div>
+    }
+
+    <div class="container-bar mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="titulo-bar fs-2 text-start m-0">
+                MESAS DISPONIBLES <span class="subtitulo-neon">(@modoActual.ToUpper())</span>
+            </h2>
+            
+            <!-- Botón que abre el modal para crear mesa -->
+            <button type="button" class="btn btn-bar" data-bs-toggle="modal" data-bs-target="#crearPartidaModal" onclick="setModoPartida('@modoActual')">
+                + Crear Nueva Mesa
+            </button>
+        </div>
+    </div>
+
+    <!-- Lista Dinámica de Partidas Activas -->
+    <div class="row g-3">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var partida in Model)
+            {
+                bool es4P = partida.Modo.Equals("4p", System.StringComparison.OrdinalIgnoreCase);
+                int maxJugadores = es4P ? 4 : 2;
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="mesa-truco p-3 h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="fw-bold text-white m-0">@partida.Nombre</h5>
+                                <span class="badge @(es4P ? "bg-danger" : "bg-warning text-dark")">
+                                    @(es4P ? "1v1v1v1" : "1 v 1")
+                                </span>
+                            </div>
+                            <p class="small text-light opacity-75 mb-3">
+                                Creador: <strong>@partida.Creador.Nombre</strong> (@partida.JugadoresActuales/@maxJugadores Jugadores)
+                            </p>
+                        </div>
+                        <div>
+                            <a asp-controller="Partida" asp-action="Mesa" asp-route-id="@partida.Id" class="btn @(es4P ? "btn-bar-danger" : "btn-bar") w-100 btn-sm">
+                                Unirse a la Mesa
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 text-center py-5">
+                <p class="text-light opacity-75 fs-5">No hay mesas activas en este momento para este modo. ¡Creá una y empezá a jugar!</p>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- MODAL PARA INGRESAR EL NOMBRE DE LA PARTIDA -->
+<div class="modal fade" id="crearPartidaModal" tabindex="-1" aria-labelledby="crearPartidaModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title subtitulo-neon" id="crearPartidaModalLabel">NUEVA MESA DE ESCOBA</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form asp-controller="Partida" asp-action="Crear" method="post">
+                <div class="modal-body">
+                    <!-- Campo oculto para el modo -->
+                    <input type="hidden" id="modalModoInput" name="modo" value="@modoActual" />
+
+                    <div class="mb-3 text-start">
+                        <label for="nombrePartida" class="form-label text-light fw-bold">
+                            Nombre de la Partida:
+                        </label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="nombrePartida" 
+                               name="nombrePartida" 
+                               placeholder="Ej: Mesa de la Esquina, La Escoba de Oro..." 
+                               required 
+                               maxlength="30" />
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-bar">Crear Mesa</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function setModoPartida(modo) {
+            document.getElementById('modalModoInput').value = modo;
+        }
+    </script>
+}

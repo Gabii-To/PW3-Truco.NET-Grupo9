@@ -1,30 +1,31 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@{
+    // Verifica si el usuario tiene una sesión activa
+    bool estaLogueado = !string.IsNullOrEmpty(Context.Session.GetString("UsuarioLogueado"));
+}
 
-<!-- Encabezado / Navbar -->
-
-
-<!-- Contenido Principal -->
 <main class="container my-5">
 
-    <!-- Hero Section / Bienvenida -->
-    <div class="container-bar text-center py-5 mb-5">
+    <!-- Bienvenida -->
+    @if (!estaLogueado)
+    {
+     <div class="container-bar text-center py-5 mb-5">
         <h1 class="titulo-bar display-3 fw-bold mb-3">
-            EL MEJOR LUGAR PARA JUGAR AL <span class="subtitulo-neon">TRUCO</span>
+            EL MEJOR LUGAR PARA JUGAR A LA <span class="subtitulo-neon">ESCOBA DE 15</span>
         </h1>
         <p class="lead text-light opacity-75 col-md-8 mx-auto">
-            Pasá, sentate en la mesa y pedí un trago. Acá se juega al truco posta: mentiras, retruco, envido y señas con tus compañeros. Sin vueltas ni vueltas.
+            Pasá, sentate en la mesa y pedí un trago. Sumá 15, llevate el 7 de velo, juntá los oros y no dejes pasar ni una escoba limpia sobre la mesa.
         </p>
         <div class="mt-4">
             <button class="btn btn-bar btn-lg px-4 me-2" data-bs-toggle="modal" data-bs-target="#loginModal">
                 Jugar Ahora
             </button>
-            <a href="#modalidades" class="btn btn-outline-light btn-lg px-4">
-                Ver Modalidades
-            </a>
         </div>
     </div>
+    }
+
 
     <!-- Sección de Modalidades de Juego -->
     <section id="modalidades" class="my-5">
@@ -40,39 +41,77 @@
                             <span class="badge bg-warning text-dark fs-6">2 Jugadores</span>
                         </div>
                         <p class="text-light opacity-75">
-                            El duelo clásico. Medite cara a cara contra otro jugador en un mano a mano donde la astucia, el faroleo y saber cuándo irse al mazo lo son todo.
+                            Duelo directo en la mesa. Controlá las cartas en juego, calculá las sumas a 15 y disputale cada oro y cada 7 cara a cara a tu rival.
                         </p>
                         <ul class="list-unstyled small text-warning">
-                            <li>✔ Partidas a 15 o 30 puntos</li>
-                            <li>✔ Rápido y dinámico</li>
-                            <li>✔ Ideal para probar tus señas y estrategias</li>
+                            <li>✔ Duelo ágil y estratégico</li>
+                            <li>✔ Control total de las cartas del pozo</li>
+                            <li>✔ Ideal para partidas rápidas</li>
                         </ul>
                     </div>
-                    <div class="mt-3">
-                        <button class="btn btn-bar w-100">Crear Mesa 1v1</button>
+
+                    <!-- Botones 1v1 -->
+                    <div class="mt-3 d-flex gap-2">
+                        @if (estaLogueado)
+                        {
+                            <button class="btn btn-bar flex-fill" data-bs-toggle="modal" data-bs-target="#crearPartidaModal" onclick="setModoPartida('1v1')">
+                                Crear Partida
+                            </button>
+                            <a asp-controller="Partida" asp-action="Index" asp-route-modo="1v1" class="btn btn-outline-light flex-fill fw-bold">
+                                Buscar Partida
+                            </a>
+                        }
+                        else
+                        {
+                            <button class="btn btn-bar flex-fill" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                Crear Partida
+                            </button>
+                            <button class="btn btn-outline-light flex-fill fw-bold" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                Buscar Partida
+                            </button>
+                        }
                     </div>
                 </div>
             </div>
 
-            <!-- Tarjeta 2v2 -->
+            <!-- Tarjeta 1v1v1v1 -->
             <div class="col-md-6">
                 <div class="mesa-truco h-100 d-flex flex-column justify-content-between p-4">
                     <div>
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h3 class="fw-bold text-white mb-0">EN PAREJAS (2 vs 2)</h3>
+                            <h3 class="fw-bold text-white mb-0">TODOS CONTRA TODOS (1v1v1v1)</h3>
                             <span class="badge bg-danger fs-6">4 Jugadores</span>
                         </div>
                         <p class="text-light opacity-75">
-                            El truco de cantina tradicional. Armá equipo con un amigo o sumate a una mesa pública para jugar en parejas coordinando señas y estrategias.
+                            Mesa completa de 4 jugadores individuales. Una contienda caótica donde el pozo cambia constantemente y cada escoba vale oro.
                         </p>
                         <ul class="list-unstyled small text-danger">
-                            <li>✔ Sistema de señas a tu compañero</li>
-                            <li>✔ Trabajo en equipo para cantar el Envido</li>
-                            <li>✔ La verdadera experiencia del truco argentino</li>
+                            <li>✔ 4 jugadores disputando el mismo pozo</li>
+                            <li>✔ Mayor dinamismo y sorpresas en la mesa</li>
+                            <li>✔ Competencia directa por el 7 de velo y la mayoría de cartas</li>
                         </ul>
                     </div>
-                    <div class="mt-3">
-                        <button class="btn btn-bar-danger w-100">Crear Mesa 2v2</button>
+
+                    <!-- Botones 4P -->
+                    <div class="mt-3 d-flex gap-2">
+                        @if (estaLogueado)
+                        {
+                            <button class="btn btn-bar-danger flex-fill" data-bs-toggle="modal" data-bs-target="#crearPartidaModal" onclick="setModoPartida('4p')">
+                                Crear Partida
+                            </button>
+                            <a asp-controller="Partida" asp-action="Index" asp-route-modo="4p" class="btn btn-outline-light flex-fill fw-bold">
+                                Buscar Partida
+                            </a>
+                        }
+                        else
+                        {
+                            <button class="btn btn-bar-danger flex-fill" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                Crear Partida
+                            </button>
+                            <button class="btn btn-outline-light flex-fill fw-bold" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                Buscar Partida
+                            </button>
+                        }
                     </div>
                 </div>
             </div>
@@ -86,11 +125,48 @@
             Registrate gratis en segundos para guardar tus estadísticas, acumular puntos en el ranking de la semana y armar mesas privadas con tus amigos.
         </p>
     </div>
+    <!-- MODAL crearPartida form -->
+    <div class="modal fade" id="crearPartidaModal" tabindex="-1" aria-labelledby="crearPartidaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title subtitulo-neon" id="crearPartidaModalLabel">NUEVA MESA DE ESCOBA</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
 
+                <form asp-controller="Partida" asp-action="Crear" method="post">
+                    <div class="modal-body">
+                        <!-- Campo oculto donde se asigna el modo (1v1 o 4p) con JavaScript -->
+                        <input type="hidden" id="modalModoInput" name="modo" value="1v1" />
+
+                        <div class="mb-3 text-start">
+                            <label for="nombrePartida" class="form-label text-light fw-bold">
+                                Nombre de la Partida:
+                            </label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="nombrePartida" 
+                                   name="nombrePartida" 
+                                   placeholder="Ej: Cantina Nocturna..." 
+                                   required 
+                                   maxlength="30" />
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-bar">Crear Mesa</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @section Scripts {
+    <script>
+        // Cambia el valor del campo oculto según el botón pulsado
+        function setModoPartida(modo) {
+            document.getElementById('modalModoInput').value = modo;
+        }
+    </script>
+}
 </main>
-
-<!-- Pie de página -->
-
-<!-- Modales de Login y Registro se incluyen dinámicamente -->
-@* <partial name="_LoginModalPartial" /> *@
-@* <partial name="_RegisterModalPartial" /> *@

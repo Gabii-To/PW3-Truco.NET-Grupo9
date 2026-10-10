@@ -1,0 +1,73 @@
+﻿@model Truco.Net.Models.Partida
+
+@{
+    ViewData["Title"] = Model.Nombre;
+}
+
+<div class="container my-5 text-center">
+    <div class="container-bar mb-4 p-4 mesa-truco">
+        <h2 class="titulo-bar fs-2 text-white m-0">
+            @Model.Nombre <span class="subtitulo-neon">(@Model.Modo.ToUpper())</span>
+        </h2>
+        <hr class="border-secondary my-3">
+        
+        <!-- Estado de la partida -->
+        <div id="estadoPartida" class="alert alert-warning bg-dark text-warning border-warning py-2 mb-4 d-inline-block px-4">
+            ⏳ Estado: <strong>Esperando jugadores...</strong>
+        </div>
+
+        <h5 class="text-light mb-3">Jugadores en la Mesa:</h5>
+        
+        <!-- Lista dinámica de jugadores -->
+        <ul id="listaJugadores" class="list-group list-group-flush mx-auto" style="max-width: 400px;">
+            @if (Model.Jugadores != null)
+            {
+                @foreach (var j in Model.Jugadores)
+                {
+                    <li class="list-group-item bg-dark text-light border-secondary d-flex justify-content-between align-items-center">
+                        <span>@j.Nombre</span>
+                        <span class="badge bg-success">Conectado</span>
+                    </li>
+                }
+            }
+        </ul>
+
+        <div class="mt-4">
+            <a asp-controller="Partida" asp-action="Index" class="btn btn-secondary btn-sm">
+                Salir de la Mesa
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+
+    <script>
+        const partidaId = "@Model.Id";
+
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/partidahub")
+            .build();
+
+        connection.on("ActualizarJugadores", function (cantidadActual, nuevoJugadorNombre) {
+            const lista = document.getElementById("listaJugadores");
+            const li = document.createElement("li");
+            li.className = "list-group-item bg-dark text-light border-secondary d-flex justify-content-between align-items-center";
+            li.innerHTML = `<span>${nuevoJugadorNombre}</span> <span class="badge bg-success">Conectado</span>`;
+            lista.appendChild(li);
+
+            const estadoDiv = document.getElementById("estadoPartida");
+            estadoDiv.innerHTML = `⏳ Estado: <strong>Esperando jugadores (${cantidadActual}/...)</strong>`;
+        });
+
+        connection.start().then(function () {
+            console.log("Conectado a SignalR con éxito.");
+            connection.invoke("UnirseAMesa", partidaId).catch(function (err) {
+                return console.error(err.toString());
+            });
+        }).catch(function (err) {
+            return console.error(err.toString());
+        });
+    </script>
+}
